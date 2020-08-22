@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Movie'S Booking</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menuId="leftMenu"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="!userCredentials.UID" [routerLink]="['/user-credentials','signin']">
+      <ion-button>
+        <ion-icon name="person-add-outline" style="font-size: 25px; padding: 10px;"></ion-icon> &nbsp;
+        Signup/Signin
+      </ion-button>
+    </ion-buttons>
+    <div class="ion-text-end" *ngIf="userCredentials.UID">
+      <ion-text *ngIf="userCredentials.userName" style="word-break: break-all; padding-right: 15px;">
+        Welcome {{userCredentials.userName}}
+      </ion-text>
+    </div>
+  </ion-toolbar>
+  <ion-searchbar showCancelButton="focus" cancelButtonText="Custom Cancel" animated [(ngModel)]="searchInput"
+    (ionChange)="filterSearch()" placeholder="Enter name or location"></ion-searchbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Date and time selection -->
+  <!-- <div>
+    <ion-calendar [(ngModel)]="date" (onChange)="onChange($event)" [type]="type" [format]="'YYYY-MM-DD'">
+    </ion-calendar>
+  </div> -->
+
+  <!-- <ion-text>{{moviesDetails.name}}</ion-text> -->
+
+  <div>
+    <ul *ngFor="let movies of moviesDetails" [routerLink]="['/movie-details/',movies.id]"
+      style="cursor: pointer;  outline: none;">
+      <li>
+        <ion-card>
+          <ion-card-content>
+            <img src="{{movies.images}}" width="256px" height="200px"><br /><br />
+            <div class="ion-text-start">
+              <ion-label><b>Name : </b></ion-label>
+              <ion-label color="success">{{movies.name}}</ion-label><br />
+              <ion-label><b>Date of release : </b></ion-label>
+              <ion-label>{{movies.dateOfRelease}}</ion-label><br />
+              <ion-label><b>Price : </b></ion-label>
+              <ion-label color="secondary">{{movies.price}}</ion-label><br />
+              <ion-label><b>Premium seat : </b></ion-label>
+              <ion-label *ngIf="movies.premiumSeats == 0" color="danger">{{movies.premiumSeats}}</ion-label>
+              <ion-label *ngIf="movies.premiumSeats > 0" color="succes">{{movies.premiumSeats}}</ion-label><br />
+              <ion-label><b>Premium price : </b></ion-label>
+              <ion-label *ngIf="movies.premiumPrice == 0" color="danger">{{movies.premiumPrice}}</ion-label>
+              <ion-label *ngIf="movies.premiumPrice > 0" color="success">{{movies.premiumPrice}}</ion-label><br />
+              <ion-label><b>Category : </b></ion-label>
+              <ion-label style="display: table-row;">{{movies.category}}</ion-label>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </li>
+    </ul>
+  </div>
+</ion-content>

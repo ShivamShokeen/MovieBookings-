@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Edit movies</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="add-edit-movie/edit"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <form [formGroup]="editMovies">
+
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Name </ion-label>
+            <ion-input formControlName="name" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Images url</ion-label>
+            <ion-input formControlName="images" #images required></ion-input>
+          </ion-item>
+          <img *ngIf="images.value" [src]="images.value" height="300px;" width="100%">
+          <ion-item>
+            <ion-label position="stacked">Category</ion-label>
+            <ion-input formControlName="category" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Location</ion-label>
+            <ion-input formControlName="location" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Normal seats</ion-label>
+            <ion-input formControlName="normalSeats" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Price</ion-label>
+            <ion-input formControlName="price" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Premium seats</ion-label>
+            <ion-input formControlName="premiumSeats"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Premium price</ion-label>
+            <ion-input formControlName="premiumPrice"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Facilities</ion-label>
+            <ion-input formControlName="facilities" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Legal name</ion-label>
+            <ion-input formControlName="legalName" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Seller name </ion-label>
+            <ion-input formControlName="sellerName" required></ion-input>
+          </ion-item>
+        </ion-list>
+        <ion-button expand="block" fill="outline" (click)="updateMovie(editMovies)">Change</ion-button>
+        <ion-button expand="block" fill="outline" type="reset">Reset</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

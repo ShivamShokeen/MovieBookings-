@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title *ngFor="let movie of movieDescription">{{movie.name}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons style="padding: 10px; cursor: pointer;" *ngIf="selected.length > 0" slot="end"
+      [routerLink]="['/shoppingcart']">
+      <ion-icon name="cart-outline" size="large"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let movie of relatedPost">
+    <ion-card-header class="ion-text-center" *ngIf="movie.images">
+      <img src="{{movie.images}}" height="295px" width="500px">
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row style="border-bottom: groove;">
+        <ion-col col-4>
+          <ion-label color="success">Location: </ion-label>
+        </ion-col>
+        <ion-col col-4>
+          <ion-label>{{movie.location}}</ion-label><br />
+        </ion-col>
+      </ion-row>
+      <ion-row style="border-bottom: groove;">
+        <ion-col col-4>
+          <ion-label color="success">Premium seat price(per person): </ion-label>
+        </ion-col>
+        <ion-col col-4>
+          <ion-label>{{movie.premiumPrice}}</ion-label><br />
+        </ion-col>
+      </ion-row>
+      <ion-row style="border-bottom: groove;">
+        <ion-col col-4>
+          <ion-label color="success">Total number of premium seats available: </ion-label>
+        </ion-col>
+        <ion-col col-4>
+          <ion-label>{{movie.premiumSeats}}</ion-label><br />
+        </ion-col>
+      </ion-row>
+      <ion-row style="border-bottom: groove;">
+        <ion-col col-4>
+          <ion-label color="success">Normal seat price(per person): </ion-label>
+        </ion-col>
+        <ion-col col-4>
+          <ion-label>{{movie.price}}</ion-label><br />
+        </ion-col>
+      </ion-row>
+      <ion-row style="border-bottom: groove;">
+        <ion-col col-4>
+          <ion-label color="success">Overall seats: </ion-label>
+        </ion-col>
+        <ion-col col-4>
+          <ion-label>{{movie.normalSeats}}</ion-label><br />
+        </ion-col>
+      </ion-row>
+
+      <ion-row style="border-bottom: groove;" *ngIf="movie.legalName != '' || movie.customOrganizationName != ''">
+        <ion-col col-4>
+          <ion-label color="success">Cinema name: </ion-label>
+        </ion-col>
+        <ion-col col-4>
+          <ion-label *ngIf="movie.legalName != ''">{{movie.legalName}}</ion-label>
+          <ion-label *ngIf="movie.customOrganizationName != ''">{{movie.customOrganizationName}}</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-button expand="block" fill="outline" [disabled]="disableOtherBookSeats == true"
+        (click)="seatCalculation(movie.id,movie.name,movie.location,movie.normalSeats,movie.price,movie.premiumSeats,movie.premiumPrice)">
+        Book
+        seats
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Seat booking -->
+
+  <div [hidden]="showSeats == false">
+    <div *ngIf="totalNormalSeats.length != 0 || totalPremiumSeats.length != 0" class="ion-text-center"
+      style="padding-top: 20px;">
+      <ion-text>
+        <ion-icon name="bed" color="danger"></ion-icon> Normal seat &nbsp;&nbsp;&nbsp;&nbsp;
+        <ion-icon name="bed" color="success"></ion-icon> Premium seat
+      </ion-text>
+      <br /><br />
+      <ion-text>Click on person icon to select seats.Selected seats will be displace below</ion-text>
+    </div>
+
+    <div *ngIf="totalNormalSeats.length != 0 || totalPremiumSeats.length != 0" [hidden]="showSeats == false"
+      class="ion-text-end" style="padding: 10px; cursor: pointer;">
+      <ion-icon size="large" name="close" color="danger" (click)="clearSelectedBookingSeats()"></ion-icon>
+    </div>
+
+    <ion-card *ngIf="totalNormalSeats.length != 0 || totalPremiumSeats.length != 0">
+      <ion-card-content>
+        <ul *ngFor="let seats of totalNormalSeats">
+          <li *ngIf="seats.id !=''">
+            <ion-button fill="clear"
+              (click)="selectedSeat(seats.sellerProductId,seats.name,seats.images,seats.location,seats.id, seats.price, seats.type)">
+              <ion-icon name="person" style="font-size: 20px;"></ion-icon>
+            </ion-button>
+          </li>
+        </ul><br /><br />
+
+        <ul *ngFor="let seats of totalPremiumSeats">
+          <li>
+            <ion-button fill="clear"
+              (click)="selectedSeat(seats.sellerProductId,seats.name,seats.images,seats.location,seats.id, seats.price, seats.type)">
+              <ion-icon color="success" name="person" style="font-size: 20px;"></ion-icon>
+            </ion-button>
+          </li>
+        </ul>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="ion-text-center" *ngIf="selected.length > 0">
+      <ion-text color="success">Overview</ion-text>
+    </div><br />
+    <ion-card *ngFor="let selectedSeats of selected">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size-xs="10" size-sm="10" size-lg="10" sige-xl="10" size-md="10">
+              <ion-label color="secondary">Booked seat id:</ion-label> &nbsp;
+              <ion-label> {{selectedSeats.id}}</ion-label><br />
+
+              <ion-label color="secondary">Price:</ion-label> &nbsp;
+              <ion-label> {{selectedSeats.price}}</ion-label><br />
+
+              <ion-label color="success" *ngIf="selectedSeats.type == 'premiumSeat'">Premium price:</ion-label> &nbsp;
+              <ion-label *ngIf="selectedSeats.type == 'premiumSeat'"> {{selectedSeats.premiumPrice}}</ion-label><br />
+            </ion-col>
+            <ion-col size-xs="2" size-sm="2" size-lg="2" sige-xl="2" size-md="2"
+              (click)="deleteSeat(selectedSeats.id,selectedSeats.type,selectedSeats.sellerProductId)">
+              <ion-button fill="clear" color="danger">
+                <ion-icon size="large" name="trash-bin-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <ion-button expand="block" fill="outline">Move to cart</ion-button>
+  </div>
+</ion-content>
