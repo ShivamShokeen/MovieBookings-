@@ -13,6 +13,8 @@ import { AngularFireModule } from '@angular/fire';
 import { WindowService } from './services/window.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HomePageModule } from './home/home.module';
+import { UserCredentialsService } from './services/user-credentials.service';
+import { MovieCredentialsService } from './services/movie-credentials.service';
 
 @NgModule({
   declarations: [
@@ -21,9 +23,9 @@ import { HomePageModule } from './home/home.module';
   entryComponents: [],
   imports: [
     BrowserModule, 
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     IonicModule.forRoot(), 
     AppRoutingModule, 
-    AngularFireModule.initializeApp(environment.firebaseConfig),
     HttpClientModule,
     HomePageModule
   ],

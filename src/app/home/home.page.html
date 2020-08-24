@@ -14,6 +14,8 @@
       <ion-text *ngIf="userCredentials.userName" style="word-break: break-all; padding-right: 15px;">
         Welcome {{userCredentials.userName}}
       </ion-text>
+      <ion-icon (click)="refresh()" name="refresh-outline" style="cursor: pointer;font-size: xx-large;padding-right: 15px;">
+      </ion-icon>
     </div>
   </ion-toolbar>
   <ion-searchbar showCancelButton="focus" cancelButtonText="Custom Cancel" animated [(ngModel)]="searchInput"
@@ -21,14 +23,6 @@
 </ion-header>
 
 <ion-content>
-
-  <!-- Date and time selection -->
-  <!-- <div>
-    <ion-calendar [(ngModel)]="date" (onChange)="onChange($event)" [type]="type" [format]="'YYYY-MM-DD'">
-    </ion-calendar>
-  </div> -->
-
-  <!-- <ion-text>{{moviesDetails.name}}</ion-text> -->
 
   <div>
     <ul *ngFor="let movies of moviesDetails" [routerLink]="['/movie-details/',movies.id]"

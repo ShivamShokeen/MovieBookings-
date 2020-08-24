@@ -7,6 +7,7 @@ import * as firebase from 'firebase';
 import { environment } from 'src/environments/environment';
 import { UserCredentialsService } from './services/user-credentials.service';
 import { Router } from '@angular/router';
+import { MovieCredentialsService } from './services/movie-credentials.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public userCredential : UserCredentialsService,
+    public movieCredential : MovieCredentialsService,
     private router:Router,
     private toastController: ToastController
   ) {

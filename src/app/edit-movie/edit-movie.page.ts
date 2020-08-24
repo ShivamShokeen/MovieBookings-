@@ -23,11 +23,12 @@ export class EditMoviePage implements OnInit {
     this.urlParameterId = this.route.snapshot.params['id'];
     console.log(this.urlParameterId);
     // this.movieCredentials.fetchMovies();
-    
-  
   }
 
   ngOnInit() { 
+    if(!this.userCredentials.UID){
+      this.router.navigate(['/home']);
+    }
     if (this.movieCredentials.moviesList) {
       this.editProducts = this.movieCredentials.moviesList.find(value => value.id == this.urlParameterId);
       console.log(this.editProducts);      
@@ -62,7 +63,6 @@ export class EditMoviePage implements OnInit {
       specificUrl = 'https://moviebooking-35404.firebaseio.com/addMovies/' + this.urlParameterId + '.json';
       this.http.put(specificUrl,movies.value).subscribe(responseData=>{
         this.successMessage();
-        this.movieCredentials.fetchMovies();
         this.router.navigate(['/home']);
         // firebase.auth().signOut().then(() => {
         //   console.log("Sign-out successful.");

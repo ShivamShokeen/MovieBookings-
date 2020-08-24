@@ -619,6 +619,11 @@ export class UserCredentialsService {
   }
 
   fetchUserDetails() {
+    // let reference:any;
+    // reference = firebase.database().ref('/addMovies').on("value",(snapshot) =>{
+    //   console.log(snapshot.val());
+    // })
+
     this.http.get('https://moviebooking-35404.firebaseio.com/userAccounts.json').pipe(
       map(responseData => {
         for (const key in responseData) {

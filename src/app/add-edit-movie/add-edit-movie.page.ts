@@ -42,15 +42,15 @@ export class AddEditMoviePage implements OnInit {
   @ViewChild('f', { static: false }) f: NgForm;
   productDetails: any;
   constructor(private alertController: AlertController, private route: ActivatedRoute, private http: HttpClient, private router: Router, public userCredentials: UserCredentialsService, private movieCredentials: MovieCredentialsService, public toastController: ToastController,) {
-    // if (!this.userCredentials.UID) {
-    //   this.router.navigate(['/home']);
-    //   this.userNotLoggedInError();
-    // }
-    // else {
+    if (!this.userCredentials.UID) {
+      this.router.navigate(['/home']);
+      this.userNotLoggedInError();
+    }
+    else {
       this.paramRequestType = this.route.snapshot.params['for'];
       this.addMovie.uid = this.userCredentials.UID;
       this.getBusinessUserMovies();
-    // }
+    }
   }
 
   ngOnInit() {
@@ -65,7 +65,6 @@ export class AddEditMoviePage implements OnInit {
       if (this.checkMovieExistence == undefined) {
         this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', this.addMovie).subscribe(responseData => {
           console.log("Movie was added");
-          this.movieCredentials.fetchMovies();
           this.router.navigate(['/home']);
         })
       }
@@ -90,7 +89,6 @@ export class AddEditMoviePage implements OnInit {
         console.log("Movie existed")
         this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', eliminateImage).subscribe(responseData => {
           console.log("Movie was added");
-          this.movieCredentials.fetchMovies();
           this.router.navigate(['/home']);
         })
       }

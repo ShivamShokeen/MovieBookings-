@@ -3,6 +3,7 @@ import { ToastController } from '@ionic/angular';
 import { MovieCredentialsService } from '../services/movie-credentials.service';
 import { UserCredentialsService } from '../services/user-credentials.service';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-home',
@@ -13,20 +14,45 @@ export class HomePage implements OnInit {
 
   searchInput: string;
   moviesDetails: any;
-  constructor(public movieCredentials: MovieCredentialsService, public toastController: ToastController, public userCredentials: UserCredentialsService, private router: Router) { }
+  constructor(public movieCredentials: MovieCredentialsService, public toastController: ToastController, public userCredentials: UserCredentialsService, private router: Router,) { }
 
-  ngOnInit() { 
-    this.filterSearch();
+  ngOnInit() {
+    this.refresh();
+  }
+
+  refresh() {
+    let filterCondition: any;
+    let reference: any;
+    let duplicateData = [];
+    let removeDup: any;
+    reference = firebase.database().ref('/addMovies').on("value", (snapshot) => {
+      let index: string;
+      for (index in snapshot.val()) {
+        if (snapshot.val().hasOwnProperty(index)) {
+          filterCondition = { ...snapshot.val()[index], id: index };
+          if (filterCondition.images) {
+            duplicateData.push(filterCondition);
+            removeDup = duplicateData.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i);
+            this.movieCredentials.moviesList = removeDup
+            this.filterSearch();
+          }
+        }
+      }
+    });
   }
 
   filterSearch() {
-    this.moviesDetails = this.movieCredentials.filterRecords(this.searchInput);
-    console.log(this.moviesDetails);
-    let removeDup: any;
-     this.movieCredentials.moviesList.forEach((current) => {
-      console.log(current.name);
-      // console.log(index);
-    }); 
-    // console.log(removeDup);
+    if (this.movieCredentials.moviesList != undefined) {
+      this.moviesDetails = this.movieCredentials.filterRecords(this.searchInput);
+    }
+  }
+
+  async pageRefreshedMessage() {
+    const toast = await this.toastController.create({
+      message: "Refreshed.",
+      duration: 2000,
+      position: "middle"
+    });
+    toast.present();
   }
 }
