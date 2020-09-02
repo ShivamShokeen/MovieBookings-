@@ -34,7 +34,11 @@ const routes: Routes = [
   {
     path: 'edit-movie/:id',
     loadChildren: () => import('./edit-movie/edit-movie.module').then( m => m.EditMoviePageModule)
+  },  {
+    path: 'seats',
+    loadChildren: () => import('./seats/seats.module').then( m => m.SeatsPageModule)
   },
+
 ];
 
 @NgModule({

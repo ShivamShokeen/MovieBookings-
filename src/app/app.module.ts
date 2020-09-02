@@ -15,6 +15,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HomePageModule } from './home/home.module';
 import { UserCredentialsService } from './services/user-credentials.service';
 import { MovieCredentialsService } from './services/movie-credentials.service';
+import { SeatsPageModule } from './seats/seats.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MovieCredentialsService } from './services/movie-credentials.service';
     IonicModule.forRoot(), 
     AppRoutingModule, 
     HttpClientModule,
-    HomePageModule
+    HomePageModule,
+    SeatsPageModule
   ],
   providers: [
     StatusBar,

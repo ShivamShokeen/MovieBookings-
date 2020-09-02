@@ -13,7 +13,8 @@
       <form #f="ngForm">
         <ion-list>
           <ion-list-header *ngIf="f.invalid && f.touched" color="danger">
-            <ion-text>Fill the required fields. On required fields you will see a red line if it's not field</ion-text>
+            <ion-text>Fill the required fields. On required fields you will see a red line if it's not required
+            </ion-text>
           </ion-list-header>
           <ion-item>
             <ion-label position="floating">Movie name</ion-label>
@@ -25,11 +26,26 @@
           </ion-item> <br />
           <ion-item>
             <ion-label position="floating">Date of release </ion-label>
-            <ion-input type="text" name="dateOfRelease" #dateOfRelease="ngModel" [(ngModel)]="addMovie.dateOfRelease"
-              required></ion-input>
+            <ion-datetime displayFormat="DD-MMMM-YYYY" min="1994-03-14" max="2031-12-29"
+              placeholder="Click to select date" name="dateOfRelease" dateOfRelease="ngModel"
+              [(ngModel)]="addMovie.dateOfRelease"></ion-datetime>
           </ion-item> <br />
           <ion-item>
-            <ion-label>Movie starting date and ending date on hall/cinema</ion-label>
+            <ion-label position="floating">Movie starting date on hall/cinema</ion-label>
+            <ion-datetime displayFormat="DD-MMMM-YYYY" min="1994-03-14" max="2031-12-29"
+              placeholder="Click to select date" name="startingDateOnHall" startingDateOnHall="ngModel"
+              [(ngModel)]="addMovie.startingDateOnHall"></ion-datetime>
+          </ion-item> <br />
+          <ion-item>
+            <ion-label position="floating">Movie ending date on hall/cinema</ion-label>
+            <ion-datetime displayFormat="DD-MMMM-YYYY" min="1994-03-14" max="2031-12-29"
+              placeholder="Click to select date" name="endingdateOnHall" endingdateOnHall="ngModel"
+              [(ngModel)]="addMovie.endingdateOnHall"></ion-datetime>
+          </ion-item> <br />
+          <ion-item>
+            <ion-label position="floating">Movie duration</ion-label>
+            <ion-input placeholder="Example - 2:30 stands for 2 hours : 30 Minutes" name="movieDuration"
+              movieDuration="ngModel" [(ngModel)]="addMovie.movieDuration"></ion-input>
           </ion-item> <br />
           <ion-item>
             <ion-label position="floating">Category</ion-label>
@@ -103,8 +119,11 @@
                 <ion-text color="success" *ngIf="editProduct.premiumSeats">Premium seats price: </ion-text>
                 <ion-text>{{editProduct.premiumPrice}}</ion-text><br />
               </div>
-              <div class="ion-text-end" style="padding: 10px; cursor: pointer; outline: none;" [routerLink]="['/edit-movie',editProduct.id]">
-                <ion-icon name="create-outline" color="primary" size="large"></ion-icon>
+              <div class="ion-text-end" style="padding: 10px; cursor: pointer; outline: none;">
+                <ion-icon name="create-outline" color="primary" size="large"
+                  [routerLink]="['/edit-movie',editProduct.id]"></ion-icon>
+                <ion-icon name="trash-bin-outline" color="primary" size="large" (click)="deleteMovie(editProduct.id)">
+                </ion-icon>
               </div>
             </ion-col>
           </ion-row>

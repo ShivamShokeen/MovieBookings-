@@ -35,8 +35,9 @@
             <ion-icon name="create-outline" color="secondary"></ion-icon> &nbsp;&nbsp;&nbsp;
             <ion-label>Edit movies</ion-label>
           </ion-item>
-          <ion-item [routerLink]="['/shoppingcart']" *ngIf="movieCredential.totalPrice.length > 0 && movieCredential.totalPrice != undefined ">
-            <ion-icon name="create-outline" color="secondary"></ion-icon> &nbsp;&nbsp;&nbsp;
+          <ion-item [routerLink]="['/shoppingcart']"
+            *ngIf="movieCredential.totalPrice.length > 0 && movieCredential.totalPrice != undefined ">
+            <ion-icon name="cart-outline" color="secondary"></ion-icon> &nbsp;&nbsp;&nbsp;
             <ion-label>Shopping cart</ion-label>
           </ion-item>
           <ion-item *ngIf="userCredential.UID" (click)="userLogout()">
