@@ -115,7 +115,6 @@ export class AddEditMoviePage implements OnInit {
         }
         console.log("Movie existed")
         this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', eliminateImage).subscribe(responseData => {
-          console.log("Movie was added");
           this.router.navigate(['/home']);
         })
       }
@@ -127,9 +126,8 @@ export class AddEditMoviePage implements OnInit {
 
   getBusinessUserMovies() {
     if (this.editProducts.length > 0 && this.paramRequestType == 'edit') {
-      console.log(this.editProducts);
-      console.log(this.userCredentials.UID)
       this.productDetails = this.editProducts.filter(value => this.userCredentials.UID == value.uid);
+      console.log(this.productDetails);
     }
   }
 

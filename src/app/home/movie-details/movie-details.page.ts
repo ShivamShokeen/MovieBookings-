@@ -83,7 +83,6 @@ export class MovieDetailsPage implements OnInit {
     }
 
   }
-
   
   async presentModal(id,name, location, normalSeats, normalSeatsPrice, premiumSeats, premiumSeatsPrice) {
     const modal = await this.modalController.create({

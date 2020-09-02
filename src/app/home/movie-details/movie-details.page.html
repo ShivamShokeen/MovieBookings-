@@ -76,19 +76,21 @@
   </ion-card>
 
   <div>
+    <ion-text color="primary">
+      <h2 class="ion-text-center">Listed cinema's :-</h2>
+    </ion-text>
     <ul *ngFor="let movies of relatedMoviesList" style="cursor: pointer; outline: none;">
       <li>
-        <ion-card (click)="presentModal(movies.id,movies.name,movies.location,movies.normalSeats,movies.price,movies.premiumSeats,movies.premiumPrice)">
+        <ion-card
+          (click)="presentModal(movies.id,movies.name,movies.location,movies.normalSeats,movies.price,movies.premiumSeats,movies.premiumPrice)">
           <ion-card-content>
-            <ion-text color="secondary">{{movies.legalName}}</ion-text><br /><br />
-        <ion-text color="success">Premium price: {{movies.premiumPrice}} </ion-text><br /><br />
-        <ion-text>Price: Rs{{movies.price}}</ion-text>
+            <ion-text color="secondary">Cinema name: {{movies.legalName}}</ion-text><br />
+            <ion-text color="success">Premium price: {{movies.premiumPrice}} </ion-text><br />
+            <ion-text>Price: Rs {{movies.price}}</ion-text>
           </ion-card-content>
         </ion-card>
       </li>
     </ul>
   </div>
-
-  <!-- Seat booking -->
 
 </ion-content>

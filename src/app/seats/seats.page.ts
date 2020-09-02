@@ -62,8 +62,8 @@ export class SeatsPage implements OnInit {
   selectedSeat(sellerProductId, name, images, location, seatId, seatPrice, seatType) {
     let uid;
     uid = this.userCredentials.UID;
-    if (this.selected.length < 1) {
-      this.selected.push({
+    if (this.movieCredentials.shoppingList.length < 1) {
+      this.movieCredentials.shoppingList.push({
         id: seatId,
         price: seatPrice,
         type: seatType,
@@ -76,12 +76,12 @@ export class SeatsPage implements OnInit {
     }
     else {
       let verifyDuplicacy: any;
-      verifyDuplicacy = this.selected.find((value) => value.id == seatId.toString() && value.type == seatType && value.sellerProductId == sellerProductId);
+      verifyDuplicacy = this.movieCredentials.shoppingList.find((value) => value.id == seatId.toString() && value.type == seatType && value.sellerProductId == sellerProductId);
       if (verifyDuplicacy != undefined) {
         this.duplicateSelection();
       }
       else {
-        this.selected.push({
+        this.movieCredentials.shoppingList.push({
           id: seatId,
           price: seatPrice,
           type: seatType,
@@ -93,18 +93,24 @@ export class SeatsPage implements OnInit {
         });
       }
     }
-    this.movieCredentials.addToCart(this.selected);
-    this.movieCredentials.shoppingList = this.selected;
+    this.movieCredentials.addToCart(this.movieCredentials.shoppingList);
+    // this.movieCredentials.shoppingList.push(this.movieCredentials.shoppingList);
+    
+    console.log(this.movieCredentials.shoppingList)
   }
 
-  deleteSeat(seatId, seatType, sellerProductId) {
-    console.log("seatId " + seatId + " seatType " + seatType + " sellerProductId " + sellerProductId);
-    // let items;
-    // delete items = this.selected.filter(item => item.id !== item.seatId);
-    // console.log(items)
-    // console.log(this.selected);
+  // deleteSeat(seatId, seatType, sellerProductId) {
+  //   console.log("seatId " + seatId + " seatType " + seatType + " sellerProductId " + sellerProductId);
+  //   this.movieCredentials.shoppingList = this.movieCredentials.shoppingList.slice(1)
+  //   // let sliceArray: any;
+  //   // sliceArray = this.movieCredentials.shoppingList.slice(-1);
+  //   // console.log(sliceArray)
+  //   // let items;
+  //   // delete items = this.movieCredentials.shoppingList.filter(item => item.id !== item.seatId);
+  //   // console.log(items)
+  //   // console.log(this.movieCredentials.shoppingList);
 
-  }
+  // }
 
   async duplicateSelection() {
     const toast = await this.toastController.create({

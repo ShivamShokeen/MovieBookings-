@@ -624,18 +624,20 @@ export class UserCredentialsService {
     //   console.log(snapshot.val());
     // })
 
-    this.http.get('https://moviebooking-35404.firebaseio.com/userAccounts.json').pipe(
-      map(responseData => {
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            this.allUserAccountDetails.push({ ...responseData[key], id: key })
-          }
-        }
-        return this.allUserAccountDetails;
-      })
-    ).subscribe(getData => {
-      // console.log(getData);
-    });
+  
+
+    // this.http.get('https://moviebooking-35404.firebaseio.com/userAccounts.json').pipe(
+    //   map(responseData => {
+    //     for (const key in responseData) {
+    //       if (responseData.hasOwnProperty(key)) {
+    //         this.allUserAccountDetails.push({ ...responseData[key], id: key })
+    //       }
+    //     }
+    //     return this.allUserAccountDetails;
+    //   })
+    // ).subscribe(getData => {
+    //   // console.log(getData);
+    // });
 
   }
 
@@ -663,6 +665,7 @@ export class UserCredentialsService {
           this.businessLegalName = element.legalName;
         });
       }
+      console.log(this.userName)
     }
   }
 

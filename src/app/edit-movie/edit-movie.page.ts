@@ -64,19 +64,6 @@ export class EditMoviePage implements OnInit {
       this.http.put(specificUrl,movies.value).subscribe(responseData=>{
         this.successMessage();
         this.router.navigate(['/home']);
-        // firebase.auth().signOut().then(() => {
-        //   console.log("Sign-out successful.");
-        //   this.userCredentials.UID = "";
-        //   this.userCredentials.userUID = "";
-        //   this.userCredentials.businessUserUID = "";
-        //   this.userCredentials.userName = "";
-        //   this.userCredentials.userId = "";
-        //   this.logoutMessage();
-        // this.movieCredentials.fetchMovies();
-        //   this.router.navigate(['/home']);
-        // }).catch((error) => {
-        //   console.log(error);
-        // });
       })
     }
     else{

@@ -14,7 +14,7 @@ export class MovieCredentialsService {
   k: any;
   movies: any;
   priceCaculation;
-  shoppingList: any;
+  shoppingList = [];
   removeDup: any;
 
   constructor(private http: HttpClient, private userCredentials: UserCredentialsService) {
