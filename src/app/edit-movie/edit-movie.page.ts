@@ -17,30 +17,64 @@ export class EditMoviePage implements OnInit {
 
   urlParameterId: string;
   editProducts: any;
-  editMovies : FormGroup;
+  editMovies: FormGroup;
   date = new Date;
+  products: any;
   constructor(private route: ActivatedRoute, private router: Router, public movieCredentials: MovieCredentialsService, public userCredentials: UserCredentialsService, private http: HttpClient, public toastController: ToastController) {
     this.urlParameterId = this.route.snapshot.params['id'];
-    console.log(this.urlParameterId);
-    // this.movieCredentials.fetchMovies();
+    let removeDup: any;
+    let filterCondition: any;
+    let reference: any;
+    let duplicateData = [];
+    reference = firebase.database().ref('/addMovies').on("value", (snapshot) => {
+      let index: string;
+      for (index in snapshot.val()) {
+        if (snapshot.val().hasOwnProperty(index)) {
+          filterCondition = { ...snapshot.val()[index], id: index };
+          duplicateData.push(filterCondition);
+          removeDup = duplicateData.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i);
+          this.products = removeDup;
+        }
+      }
+    });
   }
 
-  ngOnInit() { 
-    if(!this.userCredentials.UID){
+  ngOnInit() {
+    if (!this.userCredentials.UID) {
       this.router.navigate(['/home']);
     }
-    if (this.movieCredentials.moviesList) {
-      this.editProducts = this.movieCredentials.moviesList.find(value => value.id == this.urlParameterId);
-      console.log(this.editProducts);      
-      this.customeForm();
+    if (this.products) {
+      this.editProducts = this.products.find(value => value.id == this.urlParameterId);
+      this.customForm();
     }
   }
 
-  customeForm(){
+  customForm() {
+    // let redesignFormat:any;
+    // redesignFormat = {
+    //   id : this.editProducts.id,
+    //   category: this.editProducts.category,
+    //   images: this.editProducts.images,
+    //   dateOfRelease: this.editProducts.dateOfRelease,
+    //   createdDate: this.editProducts.createdDate,
+    //   modifyDate: this.editProducts.modifyDate,
+    //   facilities: this.editProducts.facilities,
+    //   legalName: this.editProducts.legalName,
+    //   location: this.editProducts.location,
+    //   name: this.editProducts.name,
+    //   normalSeats: this.editProducts.normalSeats,
+    //   premiumSeats: this.editProducts.premiumSeats,
+    //   price: this.editProducts.price,
+    //   premiumPrice: this.editProducts.premiumPrice,
+    //   sellerName: this.editProducts.sellerName,
+    //   uid: this.editProducts.uid,
+    //   movieAlreadyExist: "yes"
+    // }
     this.editMovies = new FormGroup({
       'id': new FormControl(this.editProducts.id),
       'category': new FormControl(this.editProducts.category),
       'images': new FormControl(this.editProducts.images),
+      'dateOfRelease': new FormControl(this.editProducts.dateOfRelease),
       'createdDate': new FormControl(this.editProducts.createdDate),
       'modifyDate': new FormControl(this.date),
       'facilities': new FormControl(this.editProducts.facilities),
@@ -53,20 +87,20 @@ export class EditMoviePage implements OnInit {
       'premiumPrice': new FormControl(this.editProducts.premiumPrice),
       'sellerName': new FormControl(this.editProducts.sellerName),
       'uid': new FormControl(this.editProducts.uid),
+      'movieAlreadyExist': new FormControl(this.editProducts.movieAlreadyExist)
     });
   }
-  
-  updateMovie(movies: NgForm){
-    if(movies.valid){
-      console.log(movies.value);
-      let specificUrl : string;
+
+  updateMovie(movies: NgForm) {
+    if (movies.valid) {
+      let specificUrl: string;
       specificUrl = 'https://moviebooking-35404.firebaseio.com/addMovies/' + this.urlParameterId + '.json';
-      this.http.put(specificUrl,movies.value).subscribe(responseData=>{
+      this.http.put(specificUrl, movies.value).subscribe(responseData => {
         this.successMessage();
         this.router.navigate(['/home']);
       })
     }
-    else{
+    else {
       this.emptyField();
       this.errorInfo();
     }

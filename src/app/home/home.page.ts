@@ -21,6 +21,7 @@ export class HomePage implements OnInit {
   }
 
   refresh() {
+    this.waitingMessage();
     let filterCondition: any;
     let reference: any;
     let duplicateData = [];
@@ -33,7 +34,7 @@ export class HomePage implements OnInit {
           if (filterCondition.images) {
             duplicateData.push(filterCondition);
             removeDup = duplicateData.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i);
-            this.movieCredentials.moviesList = removeDup
+            this.movieCredentials.moviesList = removeDup;
             this.filterSearch();
           }
         }
@@ -52,6 +53,16 @@ export class HomePage implements OnInit {
       message: "Refreshed.",
       duration: 2000,
       position: "middle"
+    });
+    toast.present();
+  }
+
+  async waitingMessage() {
+    const toast = await this.toastController.create({
+      message: "Please wait for few seconds :).",
+      duration: 2000,
+      color: "primary",
+      position: "middle",
     });
     toast.present();
   }

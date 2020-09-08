@@ -22,7 +22,7 @@
           </ion-item> <br />
           <ion-item>
             <ion-label position="floating">Image URL of movie </ion-label>
-            <ion-input type="text" name="images" #images="ngModel" [(ngModel)]="addMovie.images" required></ion-input>
+            <ion-input type="text" name="images" #images="ngModel" [(ngModel)]="addMovie.images"></ion-input>
           </ion-item> <br />
           <ion-item>
             <ion-label position="floating">Date of release </ion-label>
@@ -104,25 +104,57 @@
                 <ion-text>{{editProduct.name}}</ion-text><br />
                 <ion-text color="success">Category: </ion-text>
                 <ion-text>{{editProduct.category}}</ion-text><br />
-                <ion-text color="success">Date of release: </ion-text>
-                <ion-text>{{editProduct.dateOfRelease}}</ion-text><br />
                 <ion-text color="success">Facilities: </ion-text>
                 <ion-text>{{editProduct.facilities}}</ion-text><br />
-                <ion-text color="success">Starting from ending To: </ion-text>
-                <ion-text>{{editProduct.date}}</ion-text><br />
                 <ion-text color="success">Normal seats: </ion-text>
                 <ion-text>{{editProduct.normalSeats}}</ion-text><br />
                 <ion-text color="success" *ngIf="editProduct.premiumSeats">Premium seats: </ion-text>
                 <ion-text>{{editProduct.premiumSeats}}</ion-text><br />
-                <ion-text color="success">Normal seats price: </ion-text>
-                <ion-text>{{editProduct.price}}</ion-text><br />
                 <ion-text color="success" *ngIf="editProduct.premiumSeats">Premium seats price: </ion-text>
                 <ion-text>{{editProduct.premiumPrice}}</ion-text><br />
+                <ion-text color="success">Normal seats price: </ion-text>
+                <ion-text>{{editProduct.price}}</ion-text><br />
               </div>
               <div class="ion-text-end" style="padding: 10px; cursor: pointer; outline: none;">
                 <ion-icon name="create-outline" color="primary" size="large"
-                  [routerLink]="['/edit-movie',editProduct.id]"></ion-icon>
-                <ion-icon name="trash-bin-outline" color="primary" size="large" (click)="deleteMovie(editProduct.id)">
+                  [routerLink]="['/edit-movie',editProduct.id]"></ion-icon>&nbsp;&nbsp;&nbsp;
+                <ion-icon name="trash-bin-outline" color="danger" size="large" (click)="deleteMovie(editProduct.id)">
+                </ion-icon>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngFor="let editProduct of movieAlreadyExisted">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size-xs="4" size-sm="4" size-md="4" size-lg="4" size-xl="4">
+              <img src="{{editProduct.images}}" height="233px" width="auto">
+            </ion-col>
+            <ion-col size-xs="8" size-sm="8" size-md="8" size-lg="8" size-xl="8">
+              <div class="ion-text-start">
+                <ion-text color="success">Name: </ion-text>
+                <ion-text>{{editProduct.name}}</ion-text><br />
+                <ion-text color="success">Category: </ion-text>
+                <ion-text>{{editProduct.category}}</ion-text><br />
+                <ion-text color="success">Facilities: </ion-text>
+                <ion-text>{{editProduct.facilities}}</ion-text><br />
+                <ion-text color="success">Normal seats: </ion-text>
+                <ion-text>{{editProduct.normalSeats}}</ion-text><br />
+                <ion-text color="success" *ngIf="editProduct.premiumSeats">Premium seats: </ion-text>
+                <ion-text>{{editProduct.premiumSeats}}</ion-text><br />
+                <ion-text color="success" *ngIf="editProduct.premiumSeats">Premium seats price: </ion-text>
+                <ion-text>{{editProduct.premiumPrice}}</ion-text><br />
+                <ion-text color="success">Normal seats price: </ion-text>
+                <ion-text>{{editProduct.price}}</ion-text><br />
+              </div>
+              <div class="ion-text-end" style="padding: 10px; cursor: pointer; outline: none;">
+                <ion-icon name="create-outline" color="primary" size="large"
+                  [routerLink]="['/edit-movie',editProduct.id]"></ion-icon>&nbsp;&nbsp;&nbsp;
+                <ion-icon name="trash-bin-outline" color="danger" size="large" (click)="deleteMovie(editProduct.id)">
                 </ion-icon>
               </div>
             </ion-col>

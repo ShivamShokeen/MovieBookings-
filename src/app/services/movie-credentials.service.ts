@@ -42,18 +42,13 @@ export class MovieCredentialsService {
   addToCart(productLists) {
     let productList;
     productList = productLists.slice(-1);
-    console.log(productList);
     productList.forEach((value) => {
-      console.log(value.price);
       this.totalPrice.push(value.price);
     });
-    console.log(productList);
-    console.log(this.totalPrice);
     if (this.totalPrice.length > 0) {
       this.priceCaculation = this.totalPrice.map(a => a).reduce(function (a, b) {
         return a + b;
       })
     }
-    console.log(this.priceCaculation)
   }
 }

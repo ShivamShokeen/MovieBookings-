@@ -17,6 +17,7 @@ export class AddEditMoviePage implements OnInit {
   paramRequestType: string;
   checkMovieExistence: any;
   date = new Date;
+  sameMovies: any;
   addMovie = {
     uid: this.userCredentials.UID,
     sellerName: this.userCredentials.userName,
@@ -41,6 +42,7 @@ export class AddEditMoviePage implements OnInit {
   //edit 
 
   editProducts: any;
+  movieAlreadyExisted: any;
   arr = [];
 
   @ViewChild('f', { static: false }) f: NgForm;
@@ -48,16 +50,18 @@ export class AddEditMoviePage implements OnInit {
   constructor(private alertController: AlertController, private route: ActivatedRoute, private http: HttpClient, private router: Router, public userCredentials: UserCredentialsService, private movieCredentials: MovieCredentialsService, public toastController: ToastController,) {
     if (!this.userCredentials.UID) {
       this.router.navigate(['/home']);
-      this.userNotLoggedInError();
+      // this.userNotLoggedInError();
     }
     else {
       this.paramRequestType = this.route.snapshot.params['for'];
       this.addMovie.uid = this.userCredentials.UID;
       if (this.paramRequestType == 'edit') {
         let removeDup: any;
+        let removeDup2: any;
         let filterCondition: any;
         let reference: any;
         let duplicateData = [];
+        let duplicateData2 = [];
         reference = firebase.database().ref('/addMovies').on("value", (snapshot) => {
           let index: string;
           for (index in snapshot.val()) {
@@ -68,6 +72,13 @@ export class AddEditMoviePage implements OnInit {
                 removeDup = duplicateData.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i);
                 this.editProducts = removeDup;
                 this.getBusinessUserMovies();
+              }
+
+              if (filterCondition.movieAlreadyExist == 'yes') {
+                duplicateData2.push(filterCondition);
+                removeDup2 = duplicateData2.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i);
+                this.sameMovies = removeDup2;
+                this.getExistedMoviesDetails();
               }
             }
           }
@@ -81,42 +92,55 @@ export class AddEditMoviePage implements OnInit {
 
   addMovies(form) {
     if (form.valid) {
-      let id: any;
-      console.log(this.addMovie.name);
-      this.checkMovieExistence = this.movieCredentials.moviesList.find((value) => value.name.replace(/ /g, "").toLocaleLowerCase() == form.value.name.replace(/ /g, "").toLocaleLowerCase());
-      console.log(this.checkMovieExistence)
-      console.log(this.addMovie);
-      if (this.checkMovieExistence == undefined) {
+      if (this.movieCredentials.moviesList == undefined) {
         this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', this.addMovie).subscribe(responseData => {
           console.log("Movie was added");
           this.router.navigate(['/home']);
         })
       }
-      else {
-        this.movieExistenceImageMessage();
-        let eliminateImage;
-        eliminateImage = {
-          uid: this.addMovie.uid,
-          sellerName: this.userCredentials.userName,
-          legalName: this.userCredentials.businessLegalName,
-          customOrganizationName: this.userCredentials.businessCustomOrganizationName,
-          startingDateOnHall: this.addMovie.startingDateOnHall,
-          endingdateOnHall: this.addMovie.endingdateOnHall,
-          movieDuration: this.addMovie.movieDuration,
-          name: this.addMovie.name,
-          category: this.addMovie.category,
-          createdDate: this.addMovie.createdDate,
-          location: this.addMovie.location,
-          normalSeats: this.addMovie.normalSeats,
-          premiumSeats: this.addMovie.premiumSeats,
-          facilities: this.addMovie.facilities,
-          price: this.addMovie.price,
-          premiumPrice: this.addMovie.premiumPrice
+      else if (this.movieCredentials.moviesList != undefined) {
+        this.checkMovieExistence = this.movieCredentials.moviesList.find((value) => value.name.replace(/ /g, "").toLocaleLowerCase() == form.value.name.replace(/ /g, "").toLocaleLowerCase());
+
+        if (this.checkMovieExistence != undefined && this.checkMovieExistence.uid == this.userCredentials.userUID && this.checkMovieExistence.name == this.addMovie.name) {
+          this.movieAlreadyCreatedByYouMessage();
         }
-        console.log("Movie existed")
-        this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', eliminateImage).subscribe(responseData => {
-          this.router.navigate(['/home']);
-        })
+        else {
+          if (this.checkMovieExistence == undefined) {
+            this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', this.addMovie).subscribe(responseData => {
+              console.log("Movie was added");
+              this.router.navigate(['/home']);
+            })
+          }
+          else {
+            this.movieExistenceImageMessage();
+            let eliminateImage;
+            eliminateImage = {
+              uid: this.addMovie.uid,
+              sellerName: this.userCredentials.userName,
+              legalName: this.userCredentials.businessLegalName,
+              customOrganizationName: this.userCredentials.businessCustomOrganizationName,
+              startingDateOnHall: this.addMovie.startingDateOnHall,
+              endingdateOnHall: this.addMovie.endingdateOnHall,
+              movieDuration: this.addMovie.movieDuration,
+              name: this.addMovie.name,
+              category: this.addMovie.category,
+              createdDate: this.addMovie.createdDate,
+              location: this.addMovie.location,
+              normalSeats: this.addMovie.normalSeats,
+              premiumSeats: this.addMovie.premiumSeats,
+              facilities: this.addMovie.facilities,
+              price: this.addMovie.price,
+              premiumPrice: this.addMovie.premiumPrice,
+              movieAlreadyExist: "yes"
+            }
+            this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', eliminateImage).subscribe(responseData => {
+              this.router.navigate(['/home']);
+            })
+          }
+        }
+      }
+      else {
+        console.log("Some thing went wrong")
       }
     }
     else {
@@ -127,7 +151,12 @@ export class AddEditMoviePage implements OnInit {
   getBusinessUserMovies() {
     if (this.editProducts.length > 0 && this.paramRequestType == 'edit') {
       this.productDetails = this.editProducts.filter(value => this.userCredentials.UID == value.uid);
-      console.log(this.productDetails);
+    }
+  }
+
+  getExistedMoviesDetails() {
+    if (this.sameMovies.length > 0 && this.paramRequestType == 'edit') {
+      this.movieAlreadyExisted = this.sameMovies.filter(value => this.userCredentials.UID == value.uid);
     }
   }
 
@@ -188,6 +217,16 @@ export class AddEditMoviePage implements OnInit {
       duration: 2000,
       position: "middle",
       color: "primary"
+    });
+    toast.present();
+  }
+
+  async movieAlreadyCreatedByYouMessage() {
+    const toast = await this.toastController.create({
+      message: "Movie already created by you :)",
+      duration: 2000,
+      position: "middle",
+      color: "danger"
     });
     toast.present();
   }

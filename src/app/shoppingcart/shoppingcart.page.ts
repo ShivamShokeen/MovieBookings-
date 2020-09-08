@@ -19,7 +19,6 @@ export class ShoppingcartPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.movieCredentials.shoppingList)
   }
 
   async emptyCart() {

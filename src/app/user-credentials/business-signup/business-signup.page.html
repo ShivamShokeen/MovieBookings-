@@ -144,7 +144,7 @@
                 [(ngModel)]="organizationDetails.siteOfOrganization"></ion-input>
             </ion-item><br>
 
-            <ion-label style="padding: 15px;">Select an option to receive a PIN to verify phone number</ion-label>
+            <!-- <ion-label style="padding: 15px;">Select an option to receive a PIN to verify phone number</ion-label>
             <ion-item>
               <input type="radio" name="verifyby" #verifyby="ngModel"
                 [(ngModel)]="organizationDetails.phoneVerification" color="danger" value="call">
@@ -155,7 +155,7 @@
               <ion-text color="danger" *ngIf="!verifyby.valid && verifyby.touched">
                 Legal name is required
               </ion-text>
-            </ion-item>
+            </ion-item> -->
 
             <ion-item>
               <ion-label position="floating">Customer Care Number</ion-label>
@@ -182,7 +182,7 @@
                 Language</ion-text>
             </ion-item> -->
 
-            <ion-button (click)="Workinprogress()">Text me now</ion-button>
+            <!-- <ion-button (click)="Workinprogress()">Text me now</ion-button> -->
             <ion-button [disabled]="sellerinformation.valid == false" (click)="sellerInformation(sellerinformation)">
               Submit</ion-button>
             <ion-button color="primary" type="reset">Reset</ion-button>

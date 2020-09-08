@@ -27,8 +27,6 @@ export class SeatsPage implements OnInit {
   constructor(private route: ActivatedRoute, public movieCredentials: MovieCredentialsService, public userCredentials: UserCredentialsService, public toastController: ToastController, private router: Router, public modalController: ModalController,) { }
 
   ngOnInit() {
-    console.log(this.id);
-    console.log(this.movieList);
     this.seatCalculation();
   }
 
@@ -94,23 +92,7 @@ export class SeatsPage implements OnInit {
       }
     }
     this.movieCredentials.addToCart(this.movieCredentials.shoppingList);
-    // this.movieCredentials.shoppingList.push(this.movieCredentials.shoppingList);
-    
-    console.log(this.movieCredentials.shoppingList)
   }
-
-  // deleteSeat(seatId, seatType, sellerProductId) {
-  //   console.log("seatId " + seatId + " seatType " + seatType + " sellerProductId " + sellerProductId);
-  //   this.movieCredentials.shoppingList = this.movieCredentials.shoppingList.slice(1)
-  //   // let sliceArray: any;
-  //   // sliceArray = this.movieCredentials.shoppingList.slice(-1);
-  //   // console.log(sliceArray)
-  //   // let items;
-  //   // delete items = this.movieCredentials.shoppingList.filter(item => item.id !== item.seatId);
-  //   // console.log(items)
-  //   // console.log(this.movieCredentials.shoppingList);
-
-  // }
 
   async duplicateSelection() {
     const toast = await this.toastController.create({

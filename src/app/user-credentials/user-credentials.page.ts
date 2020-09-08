@@ -38,7 +38,7 @@ export class UserCredentialsPage implements OnInit, AfterViewInit {
   public recaptchaVerifier: firebase.auth.RecaptchaVerifier;
   constructor(private router: Router, private route: ActivatedRoute, public userCredentials: UserCredentialsService, private toastController: ToastController, private windowService: WindowService, private http: HttpClient, public alertController: AlertController) {
     this.paramRequestType = this.route.snapshot.params['for'];
- }
+  }
 
   ngOnInit() {
     this.windowRef = this.windowService.windowRef;
@@ -95,12 +95,10 @@ export class UserCredentialsPage implements OnInit, AfterViewInit {
                 displayName: this.userDetails.name
               });
             }
-            console.log(userLogginDetails.uid);
             this.userDetails.uid = userLogginDetails.uid;
             this.http.post('https://moviebooking-35404.firebaseio.com/userAccounts.json', this.userDetails).subscribe(responseData => {
-              console.log("User signup successfully");              
-      this.signupSuccessMessage();
-      this.router.navigate(['/user-credentials/signin']);
+              this.signupSuccessMessage();
+              this.router.navigate(['/user-credentials/signin']);
             });
           }
         )
@@ -123,25 +121,24 @@ export class UserCredentialsPage implements OnInit, AfterViewInit {
             let filterCondition: any;
             let index: string;
             let reference: any;
-            reference = firebase.database().ref('/userAccounts').on("value",(snapshot)=>{
-              for(index in snapshot.val()){
-                if(snapshot.val().hasOwnProperty(index)){
-                  filterCondition = {...snapshot.val()[index], id: index};
+            reference = firebase.database().ref('/userAccounts').on("value", (snapshot) => {
+              for (index in snapshot.val()) {
+                if (snapshot.val().hasOwnProperty(index)) {
+                  filterCondition = { ...snapshot.val()[index], id: index };
                   this.userCredentials.allUserAccountDetails.push(filterCondition);
-                  console.log(this.userCredentials.allUserAccountDetails);
                   this.userCredentials.getLogginUserDetails();
                   this.router.navigate(['/home']);
                 }
               }
             })
-            
-            
+
+
           })
         .catch(error => {
           console.log(error);
           console.log(error.message);
           this.signupErrorMessage(error.message);
-        })        
+        })
     }
     else {
       this.emptyFieldAlert();
@@ -149,7 +146,6 @@ export class UserCredentialsPage implements OnInit, AfterViewInit {
   }
   resetErrorMessage() {
     this.clearErrorMessage = false;
-    console.log("reseted");
   }
 
   async emptyFieldAlert() {

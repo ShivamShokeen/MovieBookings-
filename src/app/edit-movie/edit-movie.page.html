@@ -11,7 +11,6 @@
   <ion-card>
     <ion-card-content>
       <form [formGroup]="editMovies">
-
         <ion-list>
           <ion-item>
             <ion-label position="stacked">Name </ion-label>
@@ -19,7 +18,7 @@
           </ion-item>
           <ion-item>
             <ion-label position="stacked">Images url</ion-label>
-            <ion-input formControlName="images" #images required></ion-input>
+            <ion-input formControlName="images" #images></ion-input>
           </ion-item>
           <img *ngIf="images.value" [src]="images.value" height="300px;" width="100%">
           <ion-item>

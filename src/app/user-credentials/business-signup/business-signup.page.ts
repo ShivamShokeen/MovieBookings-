@@ -44,13 +44,10 @@ export class BusinessSignupPage implements OnInit {
   Submit(form: NgForm) {
     if (form.valid) {
       let duplicateEmailId: any;
-      console.log(form.value.userEmail)
       this.userCredentials.fetchUserDetails();
       if (this.userCredentials.allUserAccountDetails) {
         duplicateEmailId = this.userCredentials.allUserAccountDetails.filter((value) => form.value.userEmail == value.email);
-        console.log(duplicateEmailId)
         if (duplicateEmailId.length == 0) {
-          console.log(form.value);
           this.businessName = true;
           this.businessRegistration = false;
         }
@@ -66,12 +63,10 @@ export class BusinessSignupPage implements OnInit {
   }
   firmName(form) {
     if (form.valid) {
-      console.log(form.value);
       let duplicateFirmName: any;
       this.userCredentials.fetchUserDetails();
       if (this.userCredentials.allUserAccountDetails) {
         duplicateFirmName = this.userCredentials.allUserAccountDetails.filter((value) => this.organizationDetails.legalName == value.legalName);
-        console.log(duplicateFirmName);
       }
       if (duplicateFirmName.length == 0) {
         this.businessName = false;
@@ -85,7 +80,6 @@ export class BusinessSignupPage implements OnInit {
   }
   sellerInformation(form: NgForm) {
     if (form.valid == true) {
-      console.log(form.value);
       firebase.auth().createUserWithEmailAndPassword(this.organizationDetails.email, this.organizationDetails.password)
         .then(
           (user) => {
@@ -95,11 +89,8 @@ export class BusinessSignupPage implements OnInit {
                 displayName: this.organizationDetails.name
               });
             }
-            console.log(userLogginDetails.uid);
             this.organizationDetails.uid = userLogginDetails.uid;
-            this.http.post('https://moviebooking-35404.firebaseio.com/userAccounts.json', this.organizationDetails).subscribe(responseData => {
-              console.log("User signup successfully");
-            });
+            this.http.post('https://moviebooking-35404.firebaseio.com/userAccounts.json', this.organizationDetails).subscribe(responseData => { });
           }
         )
         .catch(error => {
@@ -111,7 +102,6 @@ export class BusinessSignupPage implements OnInit {
       this.router.navigate(['/user-credentials/signin']);
     } else {
       this.emptyFieldAlert();
-      console.log(form);
     }
   }
 

@@ -31,7 +31,7 @@ export class MovieDetailsPage implements OnInit {
   sellerDetails: any;
   relatedMoviesList: any;
 
-  constructor(private route: ActivatedRoute, public movieCredentials: MovieCredentialsService, public userCredentials: UserCredentialsService, public toastController: ToastController, private router: Router,public modalController: ModalController,) { }
+  constructor(private route: ActivatedRoute, public movieCredentials: MovieCredentialsService, public userCredentials: UserCredentialsService, public toastController: ToastController, private router: Router, public modalController: ModalController,) { }
 
   ngOnInit() {
     if (!this.userCredentials.UID) {
@@ -67,24 +67,23 @@ export class MovieDetailsPage implements OnInit {
           if (snapshot.val().hasOwnProperty(index)) {
             filterCondition = { ...snapshot.val()[index], id: index };
             if (filterCondition.name.toLocaleLowerCase() == movieName.toLocaleLowerCase()) {
-            duplicateData.push(filterCondition);
+              duplicateData.push(filterCondition);
             }
-              removeDup = duplicateData.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i);
-              this.relatedMoviesList = removeDup            
+            removeDup = duplicateData.filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i);
+            this.relatedMoviesList = removeDup
           }
         }
       });
     }
 
     this.relatedPost = this.movieCredentials.moviesList.filter((value) => value.name.toLocaleLowerCase() == movieName.toLocaleLowerCase())
-    // console.log(this.relatedPost)
     if (userUID) {
       this.sellerDetails = this.userCredentials.allUserAccountDetails.filter((value) => value.uid == userUID);
     }
 
   }
-  
-  async presentModal(id,name, location, normalSeats, normalSeatsPrice, premiumSeats, premiumSeatsPrice) {
+
+  async presentModal(id, name, location, normalSeats, normalSeatsPrice, premiumSeats, premiumSeatsPrice) {
     const modal = await this.modalController.create({
       component: SeatsPage,
       cssClass: 'my-custom-class',
@@ -96,7 +95,7 @@ export class MovieDetailsPage implements OnInit {
         'normalSeats': normalSeats,
         'normalSeatsPrice': normalSeatsPrice,
         'premiumSeats': premiumSeats,
-        'premiumSeatsPrice':premiumSeatsPrice,
+        'premiumSeatsPrice': premiumSeatsPrice,
         'moviePosterUrl': this.moviePosterUrl
       }
     });
@@ -200,12 +199,4 @@ export class MovieDetailsPage implements OnInit {
   //   this.totalPremiumSeats.splice(0, premiumSeatsLength);
   // }
 
-  // deleteSeat(seatId, seatType, sellerProductId) {
-  //   console.log("seatId " + seatId + " seatType " + seatType + " sellerProductId " + sellerProductId);
-  //   // let items;
-  //   // delete items = this.selected.filter(item => item.id !== item.seatId);
-  //   // console.log(items)
-  //   // console.log(this.selected);
-
-  // }
 }

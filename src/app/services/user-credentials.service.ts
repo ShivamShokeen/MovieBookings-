@@ -14,10 +14,10 @@ export class UserCredentialsService {
   businessUserDetails: any;
   userDetails: any;
   userUID: string;
-  userId : string;
+  userId: string;
   businessUserUID: string;
-  businessLegalName : string;
-  businessCustomOrganizationName : string;
+  businessLegalName: string;
+  businessCustomOrganizationName: string;
   Country = [
     {
       name: "Afghanistan"
@@ -624,7 +624,7 @@ export class UserCredentialsService {
     //   console.log(snapshot.val());
     // })
 
-  
+
 
     // this.http.get('https://moviebooking-35404.firebaseio.com/userAccounts.json').pipe(
     //   map(responseData => {
@@ -642,13 +642,9 @@ export class UserCredentialsService {
   }
 
   getLogginUserDetails() {
-    console.log(this.UID)
     if (this.allUserAccountDetails.length > 0) {
-      console.log(this.allUserAccountDetails);
       this.userDetails = this.allUserAccountDetails.filter(value => this.UID == value.uid);
       this.businessUserDetails = this.allUserAccountDetails.filter(value => this.UID == value.uid && value.accountType == "business");
-      console.log(this.userDetails);
-      console.log(this.businessUserDetails);
       if (this.userDetails) {
         this.userDetails.forEach(element => {
           this.userUID = element.uid;
@@ -665,7 +661,6 @@ export class UserCredentialsService {
           this.businessLegalName = element.legalName;
         });
       }
-      console.log(this.userName)
     }
   }
 

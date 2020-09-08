@@ -31,12 +31,13 @@
       <li>
         <ion-card>
           <ion-card-content>
-            <img src="{{movies.images}}" width="256px" height="200px"><br /><br />
+            <img src="{{movies.images}}" width="256px" height="200px">
+            <br /><br />
             <div class="ion-text-start">
               <ion-label><b>Name : </b></ion-label>
               <ion-label color="success">{{movies.name}}</ion-label><br />
               <ion-label><b>Date of release : </b></ion-label>
-              <ion-label>{{movies.dateOfRelease}}</ion-label><br />
+              <ion-label>{{movies.dateOfRelease | date :'MMM d, y, h:mm'}}</ion-label><br />
               <ion-label><b>Category : </b></ion-label>
               <ion-label style="display: table-row;">{{movies.category}}</ion-label>
               <ion-label><b>Normal seat price : </b></ion-label>
