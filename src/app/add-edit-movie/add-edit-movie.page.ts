@@ -82,6 +82,10 @@ export class AddEditMoviePage implements OnInit {
               }
             }
           }
+        },error =>{
+          if(error.status == 401){
+            this.errorMessage();
+          }
         });
       }
     }
@@ -96,6 +100,8 @@ export class AddEditMoviePage implements OnInit {
         this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', this.addMovie).subscribe(responseData => {
           console.log("Movie was added");
           this.router.navigate(['/home']);
+        },error =>{
+          this.errorMessage();
         })
       }
       else if (this.movieCredentials.moviesList != undefined) {
@@ -109,6 +115,8 @@ export class AddEditMoviePage implements OnInit {
             this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', this.addMovie).subscribe(responseData => {
               console.log("Movie was added");
               this.router.navigate(['/home']);
+            },error => {
+              this.errorMessage();
             })
           }
           else {
@@ -135,6 +143,10 @@ export class AddEditMoviePage implements OnInit {
             }
             this.http.post('https://moviebooking-35404.firebaseio.com/addMovies.json', eliminateImage).subscribe(responseData => {
               this.router.navigate(['/home']);
+            },error =>{
+              if(error.status == 401){
+                this.errorMessage();
+              }
             })
           }
         }
@@ -162,11 +174,12 @@ export class AddEditMoviePage implements OnInit {
 
 
   deleteMovie(id) {
-    let specificUrl: string;
-    specificUrl = 'https://moviebooking-35404.firebaseio.com/addMovies/' + id + '.json';
-    this.http.delete(specificUrl).subscribe((data) => { });
-    this.deleteMessage();
-    this.router.navigate(['/home']);
+    this.errorMessage();
+    // let specificUrl: string;
+    // specificUrl = 'https://moviebooking-35404.firebaseio.com/addMovies/' + id + '.json';
+    // this.http.delete(specificUrl).subscribe((data) => { });
+    // this.deleteMessage();
+    // this.router.navigate(['/home']);
   }
 
   //edit
@@ -230,5 +243,16 @@ export class AddEditMoviePage implements OnInit {
     });
     toast.present();
   }
+
+  async errorMessage() {
+    const toast = await this.toastController.create({
+      message: "You need to create your own firebase account and you can take help of 'Step video' that is available on my app 'BuildX Projects'.",
+      duration: 4000,
+      position: "bottom",
+      color: "danger"
+    });
+    toast.present();
+  }
+
 
 }

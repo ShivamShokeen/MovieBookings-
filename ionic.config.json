@@ -1,5 +1,7 @@
 {
   "name": "MovieBookings",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

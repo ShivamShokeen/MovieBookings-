@@ -98,6 +98,8 @@ export class EditMoviePage implements OnInit {
       this.http.put(specificUrl, movies.value).subscribe(responseData => {
         this.successMessage();
         this.router.navigate(['/home']);
+      },error =>{
+        this.errorMessage();
       })
     }
     else {
@@ -136,6 +138,16 @@ export class EditMoviePage implements OnInit {
       message: "Red line means 'Required field' and green line means 'Optional field' :)",
       duration: 7000,
       position: 'bottom',
+    });
+    toast.present();
+  }
+
+  async errorMessage() {
+    const toast = await this.toastController.create({
+      message: "You need to create your own firebase account and you can take help of 'Step video' that is available on my app 'BuildX Projects'.",
+      duration: 4000,
+      position: "bottom",
+      color: "danger"
     });
     toast.present();
   }
