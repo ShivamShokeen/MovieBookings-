@@ -91,7 +91,7 @@ export class EditMoviePage implements OnInit {
     });
   }
 
-  updateMovie(movies: NgForm) {
+  updateMovie(movies) {
     if (movies.valid) {
       let specificUrl: string;
       specificUrl = 'https://moviebooking-35404.firebaseio.com/addMovies/' + this.urlParameterId + '.json';

@@ -10,7 +10,7 @@
 <ion-content>
   <ion-card>
     <ion-card-content>
-      <form #editMovie="ngForm" [formGroup]="editMovies" (ngSubmit)="updateMovie(editMovie)">
+      <form #editMovie="ngForm" [formGroup]="editMovies">
         <ion-list>
           <ion-item>
             <ion-label position="stacked">Name </ion-label>
@@ -58,7 +58,7 @@
             <ion-input formControlName="sellerName" required></ion-input>
           </ion-item>
         </ion-list>
-        <ion-button expand="block" fill="outline" type="submit">Change</ion-button>
+        <ion-button expand="block" fill="outline" type="submit" (click)="updateMovie(editMovie)">Change</ion-button>
         <ion-button expand="block" fill="outline" type="reset">Reset</ion-button>
       </form>
     </ion-card-content>
